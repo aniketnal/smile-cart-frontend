@@ -8,13 +8,13 @@ const Carousel = ({ imageUrls, title }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const handlePrevious = () => {
-    const prevIndex = (currentIndex - 1 + imageUrls.length) % imageUrls.length;
-    setCurrentIndex(prevIndex);
+    setCurrentIndex(
+      prevIndex => (prevIndex - 1 + imageUrls.length) % imageUrls.length
+    );
   };
 
   const handleNext = () => {
-    const nextIndex = (currentIndex + 1) % imageUrls.length;
-    setCurrentIndex(nextIndex);
+    setCurrentIndex(prevIndex => (prevIndex + 1) % imageUrls.length);
   };
 
   return (
@@ -40,7 +40,7 @@ const Carousel = ({ imageUrls, title }) => {
         />
       </div>
       <div className="flex space-x-1">
-        {/* dots wala logic. React states, map(_,index) --> _ used cause we only accessing the array indices like 0,1,2,3 */}
+        {/* dots logic. React states, map(_,index) --> _ used cause we only accessing the array indices like 0,1,2,3 */}
         {imageUrls.map((_, index) => (
           <span
             key={index}
