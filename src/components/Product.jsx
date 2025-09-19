@@ -42,27 +42,30 @@ const Product = () => {
   const discountPercentage = ((totalDiscounts / mrp) * 100).toFixed(1);
 
   return (
-    <div className="px-6 pb-6">
-      <div className="mt-16 flex">
-        <div className="flex justify-center gap-4">
+    <div className="px-2 pb-6">
+      <div className="mt-12 flex-col space-x-6">
+        <div className="mt-2">
+          <Typography className="mx-6 mb-2 mt-6" style="h1" weight="semibold">
+            {name}
+          </Typography>
+          <hr className="neeto-ui-bg-black h-1" />
+        </div>
+        <div className="mt-6 flex justify-center gap-4">
           {isNotNil(imageUrls) ? (
             <Carousel imageUrls={append(imageUrl, imageUrls)} title={name} />
           ) : (
             <img alt={name} className="w-48" src={imageUrl} />
           )}
-        </div>
-        <div>
-          <Typography className="py-2 text-4xl font-semibold" style="h1">
-            {name}
-          </Typography>
-          <Typography>{description}</Typography>
-          <Typography>MRP: {mrp}</Typography>
-          <Typography className="font-semibold">
-            Offer price: {offerPrice}
-          </Typography>
-          <Typography className="font-semibold text-green-600">
-            {discountPercentage}% off
-          </Typography>
+          <div className="space-y-6 font-semibold">
+            <Typography>{description}</Typography>
+            <Typography>MRP: {mrp}</Typography>
+            <Typography className="font-semibold">
+              Offer price: {offerPrice}
+            </Typography>
+            <Typography className="font-semibold text-green-600">
+              {discountPercentage}% off
+            </Typography>
+          </div>
         </div>
       </div>
     </div>
