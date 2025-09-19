@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-import productApi from "apis/products";
+import productsApi from "apis/products";
 import { Typography, Spinner } from "neetoui";
 import { append, isNotNil } from "ramda";
 
@@ -14,9 +14,9 @@ const Product = () => {
   // fetching data from api using axios
   const fetchProducts = async () => {
     try {
-      const response = productApi.show();
-
-      setProduct(response.data);
+      const product = await productsApi.show();
+      // no need for writing response.data --> direct response is sent, cz axios interceptors are used
+      setProduct(product);
     } catch (error) {
       console.log("Error fetching api response: ", error);
     } finally {
@@ -37,14 +37,7 @@ const Product = () => {
     );
   }
 
-  const {
-    name,
-    description,
-    mrp,
-    offer_price: offerPrice,
-    image_urls: imageUrls,
-    image_url: imageUrl,
-  } = product;
+  const { name, description, mrp, offerPrice, imageUrls, imageUrl } = product;
   const totalDiscounts = mrp - offerPrice;
   const discountPercentage = ((totalDiscounts / mrp) * 100).toFixed(1);
 
