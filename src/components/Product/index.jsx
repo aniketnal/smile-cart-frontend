@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
 
 import productsApi from "apis/products";
-import { Typography, Spinner } from "neetoui";
+import { Header, PageNotFound, PageLoader } from "components/commons";
+import { Typography } from "neetoui";
 import { append, isNotNil } from "ramda";
+import { useParams } from "react-router-dom";
 
 import Carousel from "./Carousel";
 
@@ -10,15 +12,18 @@ const Product = () => {
   // state to store the products data
   const [product, setProduct] = useState({});
   const [isLoading, setIsLoading] = useState(true);
+  const { slug } = useParams();
+  const [isError, setIsError] = useState(false);
 
   // fetching data from api using axios
   const fetchProducts = async () => {
     try {
-      const product = await productsApi.show();
+      const product = await productsApi.show(slug);
       // no need for writing response.data --> direct response is sent, cz axios interceptors are used
       setProduct(product);
     } catch (error) {
-      console.log("Error fetching api response: ", error);
+      setIsError(true);
+      console.log(error);
     } finally {
       setIsLoading(false);
     }
@@ -29,12 +34,12 @@ const Product = () => {
     fetchProducts();
   }, []);
 
+  if (isError) {
+    return <PageNotFound />;
+  }
+
   if (isLoading) {
-    return (
-      <div className="flex h-screen w-full items-center justify-center">
-        <Spinner />
-      </div>
-    );
+    return <PageLoader />;
   }
 
   const { name, description, mrp, offerPrice, imageUrls, imageUrl } = product;
@@ -43,14 +48,11 @@ const Product = () => {
 
   return (
     <div className="px-2 pb-6">
-      <div className="mt-12 flex-col space-x-6">
-        <div className="mt-2">
-          <Typography className="mx-6 mb-2 mt-6" style="h1" weight="semibold">
-            {name}
-          </Typography>
-          <hr className="neeto-ui-bg-black h-1" />
+      <div className="flex-col space-x-6">
+        <div className="">
+          <Header title={name} />
         </div>
-        <div className="mt-6 flex justify-center gap-4">
+        <div className="mt-6 flex justify-center gap-12">
           {isNotNil(imageUrls) ? (
             <Carousel imageUrls={append(imageUrl, imageUrls)} title={name} />
           ) : (
