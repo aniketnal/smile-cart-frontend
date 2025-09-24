@@ -5,7 +5,7 @@ import { Header } from "components/commons";
 import useDebounce from "hooks/Debounce";
 import { Search } from "neetoicons";
 import { Input, NoData, Spinner } from "neetoui";
-import { isEmpty, without } from "ramda";
+import { isEmpty } from "ramda";
 
 import ProductListItem from "./ProductListItem";
 
@@ -13,15 +13,7 @@ const ProductList = () => {
   const [products, setProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [searchKey, setSearchKey] = useState("");
-  const [cartItems, setCartItems] = useState([]);
   const debouncedSearchKey = useDebounce(searchKey);
-
-  const toggleIsInCart = slug =>
-    setCartItems(prevCartItems =>
-      prevCartItems.includes(slug)
-        ? without([slug], cartItems)
-        : [slug, ...cartItems]
-    );
 
   const fetchProducts = async () => {
     try {
@@ -50,7 +42,6 @@ const ProductList = () => {
     <div className="flex h-screen flex-col">
       <Header
         // to give count of items inside cart
-        cartItemsCount={cartItems.length}
         shouldShowBackButton={false}
         title="Smile Cart"
         actionBlock={
@@ -70,11 +61,8 @@ const ProductList = () => {
           {products.map(product => (
             <ProductListItem
               key={product.slug}
+              // gives all fields in product as props
               {...product}
-              // to flip the text inside button
-              isInCart={cartItems.includes(product.slug)}
-              // to add the product slug to cart
-              toggleIsInCart={() => toggleIsInCart(product.slug)}
             />
           ))}
         </div>
