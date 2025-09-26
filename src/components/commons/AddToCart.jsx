@@ -5,13 +5,11 @@ import { shallow } from "zustand/shallow";
 const AddToCart = ({ slug }) => {
   // const [cartItems, setCartItems] = useContext(CartItemsContext);
   const { isInCart, toggleIsInCart } = useCartItemsStore(
-    store => (
-      {
-        isInCart: store.cartItems.includes(slug),
-        toggleIsInCart: store.toggleIsInCart,
-      },
-      shallow
-    )
+    store => ({
+      isInCart: store.cartItems.includes(slug),
+      toggleIsInCart: store.toggleIsInCart,
+    }),
+    shallow
   );
 
   const handleClick = e => {
