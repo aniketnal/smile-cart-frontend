@@ -18,25 +18,6 @@ const Product = () => {
 
   const { data: product = {}, isLoading, isError } = useShowProduct(slug);
 
-  // fetching data from api using axios
-  // const fetchProducts = async () => {
-  //   try {
-  //     const product = await productsApi.show(slug);
-  //     // no need for writing response.data --> direct response is sent, cz of axios response interceptors
-  //     setProduct(product);
-  //   } catch (error) {
-  //     setIsError(true);
-  //     console.log(error);
-  //   } finally {
-  //     setIsLoading(false);
-  //   }
-  // };
-
-  // data is fetched on initial render
-  // useEffect(() => {
-  //   fetchProducts();
-  // }, []);
-
   if (isError) {
     return <PageNotFound />;
   }
