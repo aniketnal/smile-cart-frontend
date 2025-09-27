@@ -3,11 +3,15 @@ import { useRef } from "react";
 import { TooltipWrapper } from "components/commons";
 import { VALID_COUNT_REGEX } from "components/constants";
 import useSelectedQuantity from "components/hooks/useSelectedQuantity";
+import { useShowProduct } from "hooks/reactQuery/useProductsApi";
 import { Toastr, Input, Button } from "neetoui";
 
-const ProductQuantity = ({ slug, availableQuantity }) => {
+const ProductQuantity = ({ slug }) => {
   const { selectedQuantity, setSelectedQuantity } = useSelectedQuantity(slug);
 
+  const { data: product = {} } = useShowProduct(slug);
+
+  const { availableQuantity } = product;
   // used to remove focus if max limit of items reached
   const countInputFocus = useRef(null);
 
