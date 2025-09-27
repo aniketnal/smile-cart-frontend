@@ -31,7 +31,7 @@ const Product = () => {
   const discountPercentage = ((totalDiscounts / mrp) * 100).toFixed(1);
 
   return (
-    <div className="px-2 pb-6">
+    <div className="mt-6 px-2 pb-6">
       <div className="flex-col space-x-6">
         <div className="">
           <Header title={name} />
