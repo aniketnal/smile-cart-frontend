@@ -1,9 +1,10 @@
 import { isNotEmpty } from "neetocist";
-import { assoc, dissoc } from "ramda";
+import { assoc, dissoc, evolve } from "ramda";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
 const useCartItemsStore = create(
+  // persist is for storing the data in localStorage
   persist(
     set => ({
       cartItems: {},
@@ -15,8 +16,8 @@ const useCartItemsStore = create(
 
           return { cartItems: assoc(slug, String(quantity), cartItems) };
         }),
+      removeCartItem: slug => set(evolve({ cartItems: dissoc(slug) })),
     }),
-
     { name: "cart-items-store" }
   )
 );

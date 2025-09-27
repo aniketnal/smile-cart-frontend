@@ -3,9 +3,11 @@ import React, { useEffect, useState } from "react";
 import productsApi from "apis/products";
 import { Header, PageNotFound, PageLoader } from "components/commons";
 import AddToCart from "components/commons/AddToCart";
-import { Typography } from "neetoui";
+import useSelectedQuantity from "components/hooks/useSelectedQuantity";
+import { Typography, Button } from "neetoui";
 import { append, isNotNil } from "ramda";
 import { useParams } from "react-router-dom";
+import routes from "routes";
 
 import Carousel from "./Carousel";
 
@@ -14,13 +16,14 @@ const Product = () => {
   const [product, setProduct] = useState({});
   const [isLoading, setIsLoading] = useState(true);
   const { slug } = useParams();
+  const { selectedQuantity, setSelectedQuantity } = useSelectedQuantity(slug);
   const [isError, setIsError] = useState(false);
 
   // fetching data from api using axios
   const fetchProducts = async () => {
     try {
       const product = await productsApi.show(slug);
-      // no need for writing response.data --> direct response is sent, cz axios interceptors are used
+      // no need for writing response.data --> direct response is sent, cz of axios response interceptors
       setProduct(product);
     } catch (error) {
       setIsError(true);
@@ -76,7 +79,16 @@ const Product = () => {
             <Typography className="font-semibold text-green-600">
               {discountPercentage}% off
             </Typography>
-            <AddToCart {...{ availableQuantity, slug }} />
+            <div className="flex space-x-4">
+              <AddToCart {...{ availableQuantity, slug }} />
+              <Button
+                className="bg-neutral-800 hover:bg-neutral-950"
+                label="Buy now"
+                size="large"
+                to={routes.checkout}
+                onClick={() => setSelectedQuantity(selectedQuantity || 1)}
+              />
+            </div>
           </div>
         </div>
       </div>

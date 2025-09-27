@@ -8,8 +8,10 @@ import { Toastr, Input, Button } from "neetoui";
 const ProductQuantity = ({ slug, availableQuantity }) => {
   const { selectedQuantity, setSelectedQuantity } = useSelectedQuantity(slug);
 
+  // used to remove focus if max limit of items reached
   const countInputFocus = useRef(null);
 
+  //
   const parsedSelectedQuantity = parseInt(selectedQuantity) || 0;
   const isNotValidQuantity = parsedSelectedQuantity >= availableQuantity;
 
