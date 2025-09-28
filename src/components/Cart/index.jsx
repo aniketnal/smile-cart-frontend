@@ -19,6 +19,7 @@ const Cart = () => {
 
   if (isLoading) return <PageLoader />;
 
+  // hypo: if all products are out of stock
   if (isEmpty(products)) {
     return (
       <>
