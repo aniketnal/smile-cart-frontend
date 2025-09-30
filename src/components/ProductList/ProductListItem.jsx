@@ -1,3 +1,5 @@
+import { memo } from "react";
+
 import Typography from "antd/lib/typography/Typography";
 import AddToCart from "components/commons/AddToCart";
 import { Link } from "react-router-dom";
@@ -18,4 +20,4 @@ const ProductListItem = ({ imageUrl, name, offerPrice, slug }) => (
   </Link>
 );
 
-export default ProductListItem;
+export default memo(ProductListItem);
